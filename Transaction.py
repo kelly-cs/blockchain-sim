@@ -14,10 +14,28 @@ class Transaction:
         if total != 0:
             raise AdjustmentTotalError
 
-    def addAdjustment(walletID, adjustment):
+    def addAdjustment(self, walletID, adjustment):
         self._adjustmentDict[walletID] = adjustment
 
-    def addAdjustments(adjustmentDict):
+    def addAdjustments(self, adjustmentDict):
         # Shallow merge both dicts
         self._adjustmentDict = {**self._adjustmentDict, **adjustmentDict}
     
+    def getAdjustments(self):
+        return {**self._adjustmentDict}
+
+    # Checks if another transaction is equal to this one.
+    # other: Another Transaction object.
+    def __eq__(self, other):
+        if other == self:
+            return true
+
+        adjustmentsSelf = self._adjustmentDict
+        adjustmentsOther = other.getAdjustments() 
+        for key in adjustmentsSelf.keys():
+            if key not in adjustmentsOther.keys():
+                return false
+            if adjustmentsSelf[key] != adjustmentsOther[key]:
+                return false
+        
+        return true
