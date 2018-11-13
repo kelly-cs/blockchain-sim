@@ -25,6 +25,7 @@ class Transaction:
         return {**self._adjustmentDict}
 
     # Checks if another transaction is equal to this one.
+    # Overrides the equals operator.
     # other: Another Transaction object.
     def __eq__(self, other):
         if other == self:

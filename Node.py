@@ -1,9 +1,9 @@
 import uuid
 
 class Node:
-    def __init__(self, id, network):
+    def __init__(self, network, id):
         self._network = network
-        self._id = id || uuid.uuid4()
+        self._id = id or str(uuid.uuid4())
 
         self._network.connect(self)
 
@@ -16,34 +16,34 @@ class Node:
         self._neighbors = {}
         self._transactions = []
 
-    def getId(self):
+    def getID(self):
         return self._id
 
-    def recieveTransaction(source, transaction, reliability):
+    def recieveTransaction(self, source, transaction, reliability):
         pass
 
-    def verifyTransaction(source, transaction):
+    def verifyTransaction(self, source, transaction):
         pass
 
-    def listWallet(source, walletID):
+    def listWallet(self, source, walletID):
         pass
 
-    def getNeighbors(source):
+    def getNeighbors(self, source):
         pass
 
-    def storeTransaction(transaction):
+    def storeTransaction(self, transaction):
         for transactionStored in self._transactions:
             if transactionStored == transaction:
                 return
         self._transactions.append(transaction)
 
-    def loadTransaction(transaction):
+    def loadTransaction(self, transaction):
         pass
 
-    def searchTransaction(walletID, first):
+    def searchTransaction(self, walletID, first):
         pass
 
-    def sendTransaction(destination, transaction, reliability):
+    def sendTransaction(self, destination, transaction, reliability):
         pass
 
     # Calls sendTransaction for each transaction in transactionList.
@@ -51,13 +51,13 @@ class Node:
     # transactionList: Array of Transaction objects (TODO?) to send.
     # Returns nothing.
     # TODO: Reliability is always set to 1. Need to change.
-    def sendTransactionList(destination, transactionList):
+    def sendTransactionList(self, destination, transactionList):
         for transaction in transactionList:
             self.sendTransaction(destination, transaction, 1)
 
     # Returns a dict of the connected neighbors and their notes.
     # See __init__ for the structure of this dict.
-    def listNeighbors();
+    def listNeighbors(self):
         return this._neighbors
 
     # Adds a neighbor to this Node.
@@ -65,13 +65,13 @@ class Node:
     # destination: ID of node to add.
     # notes: Block of text describing this node. (optional)
     # Returns nothing.
-    def addNeighbor(destination, notes = "N/A"):
+    def addNeighbor(self, destination, notes = "N/A"):
         self._neighbors[destination] = notes
 
     # Remove a neighbor from this Node.
     # If neighbor does not exist, ignore it.
     # destination: ID of node to remove.
     # Returns nothing.
-    def dropNeighbor(destination):
+    def dropNeighbor(self, destination):
         del self._neighbors[destination]
 
