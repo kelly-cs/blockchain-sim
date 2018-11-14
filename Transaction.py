@@ -40,3 +40,6 @@ class Transaction:
                 return false
         
         return true
+
+    def containsWallet(self, walletID):
+        return walletID in self._adjustmentDict.keys()
