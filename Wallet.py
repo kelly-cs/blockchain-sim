@@ -1,8 +1,8 @@
 import uuid
 
 class Wallet:
-    def __init__(self, id, rsc):
-        self._id = id or uuid.uuid4()
+    def __init__(self, id=uuid.uuid4(), coin):
+        self._id = id
         self._coin = coin or 0
 
     def getId(self):

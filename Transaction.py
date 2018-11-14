@@ -1,8 +1,11 @@
+import uuid
+
 class AdjustmentTotalError(Exception):
     pass
 
 class Transaction:
-    def __init__(self, adjustmentDict):
+    def __init__(self, id=uuid.uuid4() adjustmentDict):
+        self.id = id
         self._adjustmentDict = {}
         self.addAdjustments(adjustmentDict)
 
@@ -28,18 +31,7 @@ class Transaction:
     # Overrides the equals operator.
     # other: Another Transaction object.
     def __eq__(self, other):
-        if other == self:
-            return true
-
-        adjustmentsSelf = self._adjustmentDict
-        adjustmentsOther = other.getAdjustments() 
-        for key in adjustmentsSelf.keys():
-            if key not in adjustmentsOther.keys():
-                return false
-            if adjustmentsSelf[key] != adjustmentsOther[key]:
-                return false
+        return self.id == other.id
         
-        return true
-
     def containsWallet(self, walletID):
         return walletID in self._adjustmentDict.keys()
