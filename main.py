@@ -10,6 +10,7 @@ from block import block
 from tx import tx
 import pickle #rick
 
+
 if __name__ == "__main__":
     print("Beginning Simulation")
     allNodes = [] # List containing all nodes
@@ -26,6 +27,6 @@ if __name__ == "__main__":
    
     
 
-    while True:
+    #while True:
         # Let's feed transactions to the network. We will select random nodes and submit
         # transactions to each
