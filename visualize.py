@@ -24,20 +24,20 @@ if __name__ == "__main__":
 	amt_of_neighbors = 4
 	
 	for i in range(800):
-		node = Node(id = i, xPos = randint(20,1580), yPos = randint(20,880))
+		node = Node(id = i, xPos = randint(20,880), yPos = randint(20,580))
 		allNodes.append(node)
 	for node in allNodes:
 		for n in range(amt_of_neighbors):
 			node.neighbors.append(randint(0,799));
 	
 	pygame.init()
-	vis = pygame.display.set_mode((1600,900))
+	vis = pygame.display.set_mode((900,600))
 	vis.fill((255,255,255))
 	pygame.display.update()
 	#draw lines
 	for node in allNodes:
 		for neighbor in node.neighbors:
-			pygame.draw.lines(vis, black, False, [(node.x, node.y),(allNodes[neighbor].x,allNodes[neighbor].y)],2)
+			pygame.draw.lines(vis, black, False, [(node.x, node.y),(allNodes[neighbor].x,allNodes[neighbor].y)],1)
 	#draw nodes
 	for node in allNodes:
 		pygame.draw.circle(vis, nodeDefault,(node.x,node.y),8,0)
