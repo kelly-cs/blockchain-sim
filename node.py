@@ -1,3 +1,4 @@
+import time
 
 class node:
 	#https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
@@ -21,7 +22,8 @@ class node:
         self.blockchain = [] # List of blocks.
 		self.unconfirmed_txs = [] # A list of tx's we accumulate to peruse through for making blocks with.
 		
-	def sendTx(self, dest_Node):
+	def sendTx(self, dest_Node, tx):
+        dest_Node.recvTx(tx)
 		return -1
 	
 	def recvTx(self, tx): # handle receiving a transaction
