@@ -8,3 +8,10 @@ class block:
 		self.nonce = 1 # nonce for generating the hash
 		self.prev_block = "" # hash of the previous block
 		self.hash = "" # hash of this block
+        
+    # calculate the merkle root of all the transactions in the block
+    def calculate_merkle(self, tx_list):
+        return -1
+    
+    def confirm_signature(self, tx):
+        return -1

@@ -3,6 +3,8 @@ Simulating the blockchain environment:
 This program will create x amount of nodes, and begin feeding transactions to nodes in the network
 at random.
 
+First iteration, for demo, will not have the bells and whistles (security, meaningful proof of work)
+
 '''
 
 from node import node
