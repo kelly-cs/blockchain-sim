@@ -2,7 +2,7 @@ import random
 
 from random import randint
 class Node:
-    def __init__(self, reliability=0.00, id=-1, zone=1):                #Initializer
+    def __init__(self, reliability=0.00, id=-1, zone=1): #Initializer
         self.id = id  
         self.reliability = reliability
         self.zone = zone
@@ -11,7 +11,7 @@ class Node:
         self.flag = 0
 
 
-    def sendMsg(self, recNode):#Get Failure/Success
+    def sendMsg(self, recNode):# Get Failure/Success
         
         if recNode.flag > 0:
             return 1

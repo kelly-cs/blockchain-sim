@@ -1,7 +1,7 @@
 
-class Block:
+class block:
     def __init__(self):
-		self.transactions = []
+		self.transactions = [] # a list containing transaction objects.
 		self.merkle = ""
 		self.timestamp = 1 # unix time
 		self.difficulty = 1 # difficulty bits
