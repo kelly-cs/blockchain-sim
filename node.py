@@ -1,5 +1,5 @@
 
-class Node:
+class node:
 	#https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
 	#Later, we will be passing in a reference to whatever visualization system we will be using, for the Node to interact with.
 	#https://bitcoin.stackexchange.com/questions/10479/what-is-the-merkle-root
@@ -15,10 +15,11 @@ class Node:
     def __init__(self):#Initializer
 		# We will ignore the version for now.
         self.id = id  
-        self.reliability = reliability
+        self.reliability = reliability # a reliability metric we can play with later. Not as important with the bitcoin model?
         self.neighbors = [] # This will be a list containing other Node objects.
         self.sNf = {} # This will be a way to pair nodes with measured reliabilities for them (later).
         self.blockchain = [] # List of blocks.
+		self.unconfirmed_txs = [] # A list of tx's we accumulate to peruse through for making blocks with.
 		
 	def sendTx(self, dest_Node):
 		return -1
@@ -38,4 +39,8 @@ class Node:
 	def request_block_range(self, dest_node, block_num_1, block_num_2): # Request a full copy of a range of blocks from another node
 		return -1
 	
-	def 
+	def save_blockchain_to_file(self, filename):
+		return -1
+	
+	def load_blockchain_from_file(self, filename):
+		return -1

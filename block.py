@@ -1,5 +1,5 @@
 
-class Block:
+class block:
     def __init__(self):
 		self.transactions = []
 		self.merkle = ""
