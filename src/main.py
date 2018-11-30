@@ -6,8 +6,12 @@ at random.
 First iteration, for demo, will not have the bells and whistles (security, meaningful proof of work)
 
 '''
+# Our Libraries #
+import network  #
+import security #
+import gui      #
+#################
 
-from network.node import node
 import pickle #rick
 
 
