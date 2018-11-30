@@ -7,9 +7,11 @@ First iteration, for demo, will not have the bells and whistles (security, meani
 
 '''
 # Our Libraries #
-import network  #
-import security #
-import gui      #
+import network.tx
+import network.block
+import network.node
+import security
+import gui.visualize
 #################
 
 import pickle #rick
@@ -30,7 +32,7 @@ if __name__ == "__main__":
             node.neighbors.append(allNodes[randint(0,amt_of_nodes-1)]) # add random neighbors to the node.
    
     
-
+    print("Success.")
     #while True:
         # Let's feed transactions to the network. We will select random nodes and submit
         # transactions to each
