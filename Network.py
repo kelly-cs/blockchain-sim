@@ -1,7 +1,12 @@
+from CallbackChannel import CallbackChannel
+
+
+
 class Network:
     def __init__(self):
         self._nodeList = []
         self._nodeDict = {}
+        self.callbackChannel = CallbackChannel()
 
     # Checks if input is a node id
     # If so, find the corresponding node and return it
@@ -17,6 +22,10 @@ class Network:
         self._nodeList.append(node)
         self._nodeDict[node.getID()] = node
 
+        self.callbackChannel.run('connect', {
+            'node': node
+        })
+
     # Removes a node from the network
     # Returns success status
     def disconnect(self, node):
@@ -27,3 +36,7 @@ class Network:
             return true
         except(Exception):
             return false
+
+        self.callbackChannel.run('disconnect', {
+            'node': node
+        })

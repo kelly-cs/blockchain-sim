@@ -1,19 +1,21 @@
 import uuid
 
+from CallbackChannel import CallbackChannel
+
 class Node:
-    def __init__(self, network, id):
+    def __init__(self, network, id = None):
         self._network = network
         self._id = id or str(uuid.uuid4())
 
-        self._network.connect(self)
-
         
-        # Structure of self._neighbors is as follows:
+        # Structure of self.neighbors is as follows:
         # {
         #     [nodeID]: [notes]
         # }
-        self._neighbors = {}
+        self.neighbors = {}
         self._transactions = []
+        self.callbackChannel = CallbackChannel()
+        self._network.connect(self)
 
     # Returns the node id.
     # Direct access to _id is discouraged as it could be modified.
@@ -48,6 +50,10 @@ class Node:
                 return
         self._transactions.append(transaction)
 
+        self.callbackChannel.run('storeTransaction', {
+            'transaction': transaction
+        })
+
     # Checks if a transaction is stored locally.
     # transaction: Transaction object. Does not need to be the same instance as
     #   the local one, but must have the same adjustments.
@@ -56,6 +62,10 @@ class Node:
         for transactionLocal in self._transactions:
             if transactionLocal == transaction:
                 return transactionLocal
+
+        self.callbackChannel.run('loadTransaction', {
+            'transaction': transaction
+        })
 
     # Search for transactions associated with a certain wallet
     # walletID: ID of Wallet
@@ -74,8 +84,8 @@ class Node:
                 continue
             
             transactionList.append({
-                transaction: transaction
-                reliability: 1
+                'transaction': transaction,
+                'reliability': 1
             })
 
         return transactionList
@@ -87,6 +97,12 @@ class Node:
     def sendTransaction(self, destination, transaction, reliability):
         destNode = self._network.findNode(destination)
         destNode.storeTransaction(transaction)
+
+        self.callbackChannel.run('sendTransaction', {
+            'node': self,
+            'destination': destination,
+            'transaction': transaction
+        })
 
     # Calls sendTransaction for each transaction in transactionList.
     # destination: ID of node to send.
@@ -100,7 +116,7 @@ class Node:
     # Returns a dict of the connected neighbors and their notes.
     # See __init__ for the structure of this dict.
     def listNeighbors(self):
-        return this._neighbors
+        return self.neighbors
 
     # Adds a neighbor to this Node.
     # If neighbor is already present, update their "notes".
@@ -108,12 +124,21 @@ class Node:
     # notes: Block of text describing this node. (optional)
     # Returns nothing.
     def addNeighbor(self, destination, notes = "N/A"):
-        self._neighbors[destination] = notes
+        self.neighbors[destination] = notes
+
+        self.callbackChannel.run('addNeighbor', {
+            'destination': destination,
+            'notes': notes
+        })
 
     # Remove a neighbor from this Node.
     # If neighbor does not exist, ignore it.
     # destination: ID of node to remove.
     # Returns nothing.
     def dropNeighbor(self, destination):
-        del self._neighbors[destination]
+        del self.neighbors[destination]
+
+        self.callbackChannel.run('dropNeighbor', {
+            'destination': destination
+        })
 
