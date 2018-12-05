@@ -1,4 +1,10 @@
 # blockchain-sim
 A blockchain simulator 
 
-Discord: https://discord.gg/jmCfQHn
+TO-DO:
+- Make Node Class
+- Make Transaction Class
+- Prep for Visualization
+- Make nodes store full blocks ?? Or Some full / some partial / hash only?
+- Introduce Proof of Work for each Block [SHA Hash, x amount of leading zeroes]
+
