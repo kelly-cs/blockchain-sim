@@ -86,9 +86,9 @@ class Visualizer:
         self.visNodes[node] = {
             'pos': (x, y),
             'color': COLOR_NODE_BLOCK_HIGH
-        }
         
-        node.callbackChannel.add(
+        node.callbac
+        }kChannel.add(
             self.listenSendTransaction,    
             'sendTransaction'
         )

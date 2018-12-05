@@ -20,7 +20,7 @@ if __name__ == "__main__":
     allNodes = [] # List containing all nodes
     amt_of_neighbors = 4 # amt of neighbors for each node
     amt_of_nodes = 400 # amt of unique nodes to create
-    
+    #visualizer = Visualizer()
     for i in range(amt_of_nodes):
         new_node = node(id=i) # construct a new node
         allNodes.append(new_node) # append this node to a list containing all nodes
