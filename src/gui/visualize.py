@@ -13,6 +13,10 @@ COLOR_PING        = (255,   0,   0)
 COLOR_SEND_TRANSACTION = (255,   0, 255)
 
 def _mapVal(progress, valFrom, valTo, castInt = False):
+    if progress <= 0:
+        return valFrom
+    if progress >= 1:
+        return valTo
     result = valFrom + ((valTo - valFrom) * progress)
     if castInt:
         result = int(round(result))
@@ -39,6 +43,8 @@ class Visualizer:
         self.visNodes = {}
         self.needsRedraw = True
         self.network = network
+        self._blockScoreMax = 0
+        self._blockScoreDistLow = 5
         
         # self.pings contains dicts in the following form:
         # {
@@ -73,6 +79,26 @@ class Visualizer:
             COLOR_SEND_TRANSACTION
         )
 
+    def listenNewBlock(self, data):
+        blockScore = data['node'].block.calculateScore()
+
+        self._blockScoreMax = max(
+            self._blockScoreMax,    
+            blockScore
+        )
+
+        for node in self.visNodes.keys():
+            self.visNodes[node]['color'] = _mapTuple3(
+                (
+                    self._blockScoreDistLow - (
+                        self._blockScoreMax -
+                        node.block.calculateScore()
+                    )
+                ) / self._blockScoreDistLow,
+                COLOR_NODE_BLOCK_HIGH,
+                COLOR_NODE_BLOCK_LOW
+            )
+            
     # only adds the node to an internal dict, does not draw
     def addNode(self, node, x = None, y = None):
         if x is None and y is None:
@@ -88,6 +114,11 @@ class Visualizer:
             'color': COLOR_NODE_BLOCK_HIGH
         }
         
+        node.callbackChannel.add(
+            self.listenNewBlock,    
+            'newBlock'
+        )
+
         node.callbackChannel.add(
             self.listenSendTransaction,    
             'sendTransaction'
@@ -142,30 +173,30 @@ class Visualizer:
                 ),
                 4 # radius
             )
+            
+            # # Node from circle
+            # pygame.draw.circle(
+            #     self.window,
+            #     _mapTuple3(
+            #         ping['progress'],
+            #         COLOR_NODE_ACTIVE,
+            #         visNodeFrom['color']
+            #     ),
+            #     visNodeFrom['pos'],
+            #     8 # radius
+            # )
 
-            # Node from circle
-            pygame.draw.circle(
-                self.window,
-                _mapTuple3(
-                    ping['progress'],
-                    COLOR_NODE_ACTIVE,
-                    visNodeFrom['color']
-                ),
-                visNodeFrom['pos'],
-                8 # radius
-            )
-
-            # Node to circle
-            pygame.draw.circle(
-                self.window,
-                _mapTuple3(
-                    ping['progress'],
-                    COLOR_NODE_ACTIVE,
-                    visNodeTo['color']
-                ),
-                visNodeTo['pos'],
-                8 # radius
-            )
+            # # Node to circle
+            # pygame.draw.circle(
+            #     self.window,
+            #     _mapTuple3(
+            #         ping['progress'],
+            #         COLOR_NODE_ACTIVE,
+            #         visNodeTo['color']
+            #     ),
+            #     visNodeTo['pos'],
+            #     8 # radius
+            # )
 
             ping['progress'] += 0.01
             if ping['progress'] >= 1:
@@ -185,7 +216,7 @@ class Visualizer:
         # This could probably be made more efficient; some lines may be drawn twice
         nodes = self.visNodes.keys()
         for node in nodes:
-            for neighbor in node.neighbors.keys():
+            for neighbor in node.neighbors:
                 if neighbor not in nodes:
                     continue
 
