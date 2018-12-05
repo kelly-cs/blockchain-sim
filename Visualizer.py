@@ -3,7 +3,8 @@
 import pygame
 import random
 
-COLOR_NODE_NORMAL = (  0,   0, 128)
+COLOR_NODE_BLOCK_HIGH = (  0,   0, 255)
+COLOR_NODE_BLOCK_LOW  = (255,   0,   0)
 COLOR_NODE_ACTIVE = (  0, 255,   0)
 COLOR_LINE_NORMAL = (  0,   0,   0)
 COLOR_LINE_ACTIVE = (255,   0,   0)
@@ -57,6 +58,8 @@ class Visualizer:
             'disconnect'
         )
 
+        self._addNodePos = [75,75]
+
     def listenConnect(self, data):
         self.addNode(data['node'])
 
@@ -72,11 +75,17 @@ class Visualizer:
 
     # only adds the node to an internal dict, does not draw
     def addNode(self, node, x = None, y = None):
+        if x is None and y is None:
+            self._addNodePos[0] += 125
+            if self._addNodePos[0] >= self.displaySize[0]:
+                self._addNodePos[0] = 125
+                self._addNodePos[1] += 125
+            x = self._addNodePos[0]
+            y = self._addNodePos[1]
+
         self.visNodes[node] = {
-            'pos': (
-                x or random.randint(10, self.displaySize[0] - 10),
-                y or random.randint(10, self.displaySize[1] - 10) 
-            )
+            'pos': (x, y),
+            'color': COLOR_NODE_BLOCK_HIGH
         }
         
         node.callbackChannel.add(
@@ -140,7 +149,7 @@ class Visualizer:
                 _mapTuple3(
                     ping['progress'],
                     COLOR_NODE_ACTIVE,
-                    COLOR_NODE_NORMAL
+                    visNodeFrom['color']
                 ),
                 visNodeFrom['pos'],
                 8 # radius
@@ -152,7 +161,7 @@ class Visualizer:
                 _mapTuple3(
                     ping['progress'],
                     COLOR_NODE_ACTIVE,
-                    COLOR_NODE_NORMAL
+                    visNodeTo['color']
                 ),
                 visNodeTo['pos'],
                 8 # radius
@@ -194,7 +203,7 @@ class Visualizer:
             visNode = self.visNodes[node]
             pygame.draw.circle(
                 self.window,
-                COLOR_NODE_NORMAL,
+                visNode['color'],
                 visNode['pos'],
                 8 # radius
             )

@@ -9,10 +9,10 @@ network = Network()
 nodes = network._nodeList
 vis = Visualizer(network)
 
-for i in range(0, 100):
+for i in range(0, 50):
     node = Node(network)
 
-for i in range(0, 1000):
+for i in range(0, 100):
     node1 = nodes[random.randint(0, len(nodes) - 1)] 
     node2 = nodes[random.randint(0, len(nodes) - 1)] 
     node1.addNeighbor(node2, 'test')
