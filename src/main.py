@@ -7,21 +7,12 @@ First iteration, for demo, will not have the bells and whistles (security, meani
 
 '''
 # Our Libraries #
-<<<<<<< HEAD
 from network.tx import tx
 from network.block import block
 from network.node import node
-import security
-import gui.visualize
+from gui.visualize import Visualizer
 from random import randint
-=======
-import network  #
-import security #
-import gui      #
->>>>>>> parent of 0a00e3b... indentation + still some weird problem importing node
-#################
 
-import pickle #rick
 
 
 if __name__ == "__main__":
