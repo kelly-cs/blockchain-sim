@@ -1,6 +1,4 @@
-from CallbackChannel import CallbackChannel
-
-
+from utils.CallbackChannel import CallbackChannel
 
 class Network:
     def __init__(self):
@@ -20,7 +18,7 @@ class Network:
     # Returns nothing.
     def connect(self, node):
         self._nodeList.append(node)
-        self._nodeDict[node.getID()] = node
+        self._nodeDict[node.id] = node
 
         self.callbackChannel.run('connect', {
             'node': node

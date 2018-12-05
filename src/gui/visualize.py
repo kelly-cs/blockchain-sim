@@ -216,7 +216,7 @@ class Visualizer:
         # This could probably be made more efficient; some lines may be drawn twice
         nodes = self.visNodes.keys()
         for node in nodes:
-            for neighbor in node.neighbors.keys():
+            for neighbor in node.neighbors:
                 if neighbor not in nodes:
                     continue
 
