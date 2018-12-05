@@ -10,7 +10,7 @@ import pickle
 #You take each pair of transaction hashes, concatenate them, and hash them twice with SHA-256.
 #Keep doing this until you have only one hash left. When there is an odd number of hashes, concatenate the last hash with itself.
 class node:
-    def __init__(self): #Initialize
+    def __init__(self, id=-1, reliability = 1.00): #Initialize
     # We will ignore the version for now.
         self.id = id  
         self.reliability = reliability # a reliability metric we can play with later. Not as important with the bitcoin model?

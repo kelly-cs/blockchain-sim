@@ -7,11 +7,12 @@ First iteration, for demo, will not have the bells and whistles (security, meani
 
 '''
 # Our Libraries #
-import network.tx
-import network.block
-import network.node
+from network.tx import tx
+from network.block import block
+from network.node import node
 import security
 import gui.visualize
+from random import randint
 #################
 
 import pickle #rick
@@ -24,7 +25,7 @@ if __name__ == "__main__":
     amt_of_nodes = 400 # amt of unique nodes to create
     
     for i in range(amt_of_nodes):
-        new_node = node() # construct a new node
+        new_node = node(id=i) # construct a new node
         allNodes.append(new_node) # append this node to a list containing all nodes
     
     for node in allNodes:
