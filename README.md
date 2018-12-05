@@ -1,8 +1,6 @@
 # blockchain-sim
 A blockchain simulator 
 
-Chris's Dev Branch
-
 TO-DO:
 - Make Node Class
 - Make Transaction Class
