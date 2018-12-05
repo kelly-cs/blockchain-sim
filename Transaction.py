@@ -4,8 +4,8 @@ class AdjustmentTotalError(Exception):
     pass
 
 class Transaction:
-    def __init__(self, id=uuid.uuid4() adjustmentDict):
-        self.id = id
+    def __init__(self, adjustmentDict = {}, id = None):
+        self.id = id or uuid.uuid4()
         self._adjustmentDict = {}
         self.addAdjustments(adjustmentDict)
 
@@ -35,3 +35,5 @@ class Transaction:
         
     def containsWallet(self, walletID):
         return walletID in self._adjustmentDict.keys()
+
+

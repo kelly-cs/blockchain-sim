@@ -1,12 +1,15 @@
 import uuid
 
 from CallbackChannel import CallbackChannel
+from Block import Block
 
 class Node:
     def __init__(self, network, id = None):
+        self._blockSizeMax = 5 # Number of transactions per block
+        self._blockSizeCur = 0 # Number of transactions being held for next block
+        self.block = Block()
         self._network = network
         self._id = id or str(uuid.uuid4())
-
         
         # Structure of self.neighbors is as follows:
         # {
@@ -17,29 +20,6 @@ class Node:
         self.callbackChannel = CallbackChannel()
         self._network.connect(self)
 
-    # Returns the node id.
-    # Direct access to _id is discouraged as it could be modified.
-    # Unfortunately, I don't believe Python has a way to declare private members.
-    def getID(self):
-        return self._id
-
-    def recieveTransaction(self, source, transaction, reliability):
-        pass
-
-    def verifyTransaction(self, source, transaction):
-        pass
-
-    def listWallet(self, source, walletID):
-        pass
-
-    # It is not defined at all what this is supposed to do. Supposed to be like sendTransaction? (TODO)
-    def sendNeighbor(self, destination, neighbor, notes = ""):
-        pass
-
-
-    def getNeighbors(self, source):
-        pass
-
     # Stores a transaction.
     # If transaction is already stored, ignore it.
     # transaction: Transaction object.
@@ -49,6 +29,16 @@ class Node:
             if transactionStored == transaction:
                 return
         self._transactions.append(transaction)
+
+        self._blockSizeCur += 1
+        if self._blockSizeCur >= self._blockSizeMax:
+            blockNew = Block(self._transactions, self.block)
+            self.block = blockNew
+            self._blockSizeCur = 0
+
+            self.callbackChannel.run('newBlock', {
+                'node': self
+            })
 
         self.callbackChannel.run('storeTransaction', {
             'transaction': transaction
@@ -69,8 +59,7 @@ class Node:
 
     # Search for transactions associated with a certain wallet
     # walletID: ID of Wallet
-    # first (optional): Which transaction to start with? Honestly I have no idea what he means here (TODO)
-    # Returns the list of transactions and their associated reliabilities (which is always 1 for some reason??)
+    # Returns the list of transactions and their associated reliabilities
     # Format is as follows:
     # {
     #   transaction: [transaction object]
@@ -106,7 +95,7 @@ class Node:
 
     # Calls sendTransaction for each transaction in transactionList.
     # destination: ID of node to send.
-    # transactionList: Array of Transaction objects (TODO?) to send.
+    # transactionList: Array of Transaction objects to send.
     # Returns nothing.
     # TODO: Reliability is always set to 1. Need to change.
     def sendTransactionList(self, destination, transactionList):
@@ -141,4 +130,27 @@ class Node:
         self.callbackChannel.run('dropNeighbor', {
             'destination': destination
         })
+
+    # Returns the node id.
+    # Direct access to _id is discouraged as it could be modified.
+    # Unfortunately, I don't believe Python has a way to declare private members.
+    def getID(self):
+        return self._id
+
+    def recieveTransaction(self, source, transaction, reliability):
+        pass
+
+    def verifyTransaction(self, source, transaction):
+        pass
+
+    def listWallet(self, source, walletID):
+        pass
+
+    # It is not defined at all what this is supposed to do. Supposed to be like sendTransaction? (TODO)
+    def sendNeighbor(self, destination, neighbor, notes = ""):
+        pass
+
+
+    def getNeighbors(self, source):
+        pass
 

@@ -4,6 +4,7 @@ import random
 from Network import Network
 from Node import Node
 from Visualizer import Visualizer
+from Transaction import Transaction
 
 network = Network()
 nodes = network._nodeList
@@ -28,7 +29,7 @@ while 1:
             node2 = node1Neighbors[random.randint(0, len(node1Neighbors) - 1)]
             if node1 is node2:
                 continue
-            node1.sendTransaction(node2.getID(), None, 1)
+            node1.sendTransaction(node2.getID(), Transaction(), 1)
             timer = 5
             break
     timer -= 1
