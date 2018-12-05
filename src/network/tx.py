@@ -6,4 +6,3 @@ class tx:
         self.fee = 0.00 # amt of extra fee added for the miner
         self.hash = "" # hash of the sender, receiver, and amt before signing.
         self.signed_hash = "" # signed hash of this transaction, to be cross-referenced with the sending address for validity.
-        

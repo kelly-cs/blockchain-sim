@@ -98,7 +98,7 @@ class Visualizer:
                 COLOR_NODE_BLOCK_HIGH,
                 COLOR_NODE_BLOCK_LOW
             )
-
+            
     # only adds the node to an internal dict, does not draw
     def addNode(self, node, x = None, y = None):
         if x is None and y is None:
@@ -173,7 +173,7 @@ class Visualizer:
                 ),
                 4 # radius
             )
-
+            
             # # Node from circle
             # pygame.draw.circle(
             #     self.window,
