@@ -1,9 +1,7 @@
 # This must be imported by a main function that has node, block, tx imported to function.
-# https://bitcoin.stackexchange.com/questions/10479/what-is-the-merkle-root
-# https://medium.com/hackergirl/how-to-calculate-the-hash-of-a-block-in-bitcoin-8f6aebb0dc6d
 
 def calculate_tx_hash(tx):
-	# calculate the hash of this transaction, given its various stored variables.
+	# calculate the hash of this transaction.
 	return -1
 
 def calculate_block_hash(block):
