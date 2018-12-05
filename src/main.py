@@ -10,9 +10,9 @@ First iteration, for demo, will not have the bells and whistles (security, meani
 from network.tx import tx
 from network.block import block
 from network.node import node
-from gui.visualize import Visualizer
+#from gui.visualize import Visualizer
 from random import randint
-
+import time
 
 
 if __name__ == "__main__":
@@ -30,7 +30,10 @@ if __name__ == "__main__":
             node.neighbors.append(allNodes[randint(0,amt_of_nodes-1)]) # add random neighbors to the node.
    
     
-
-    #while True:
+    
+    while True:
         # Let's feed transactions to the network. We will select random nodes and submit
         # transactions to each
+        time.sleep(randint(0,5))
+        newtx = tx()
+        allNodes[randint(0,amt_of_nodes)].recvTx(newtx)

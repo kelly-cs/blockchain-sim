@@ -45,7 +45,7 @@ class node:
         return -1
 
     def create_block(self):
-        new_block = block(transactions = self.confirmed_txs)
+        return block(transactions = self.confirmed_txs)
         # We would keep creating new blocks 
         
     # unused in first iteration - security is not priority.
@@ -58,13 +58,11 @@ class node:
     def recv_block(self, src_node, block): # Handle a block that has been received.
         if(block.height <= len(self.blockchain)): # if we get a block we already have
             return -1
-        elif(block.height > len(self.blockchain))
-            for i in range(self.blockchain, block.height): # for every block of difference between our blockchain
+        elif(block.height > len(self.blockchain)):
+            for i in range(len(self.blockchain), block.height): # for every block of difference between our blockchain
+                self.blockchain.append(src_node.blockchain[i])
+                # no security or verification of correctness here yet.
                 
-                
-                
-            
-           
     def send_block(self, dest_node, block_num): # send a block out to neighbors
         if(block_num <= len(self.blockchain)):
             dest_node.recv_block(self, self.blockchain[block_num])
